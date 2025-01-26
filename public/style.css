@@ -1,0 +1,50 @@
+  .image-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+  }
+
+  .background-image {
+    max-width: 50%;
+    max-height: 50%;
+    object-fit: contain;
+    z-index: 0;
+  }
+
+  #passkey-container {
+    position: absolute;
+    text-align: center;
+    z-index: 1;
+    display: none;
+  }
+
+  #passkey {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+  }
+
+  #submit-btn {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  #submit-btn:hover {
+    background-color: #0056b3;
+  }
+
+  #result-message {
+    font-size: 14px;
+    font-style: italic;
+  }
