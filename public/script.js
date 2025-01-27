@@ -1,37 +1,29 @@
 let typedKeys = "";
 
-const secretSequences = [
-  "followthewhiterabbit",
-  "follow the white rabbit"
-];
-
 document.addEventListener("keydown", (event) => {
   typedKeys += event.key;
 
-  const normalizedTypedKeys = typedKeys.replace(/\s+/g, "").slice(-30);
+  const normalizedTypedKeys = typedKeys.replace(/\s+/g, "").slice(-20);
 
-  if (
-    secretSequences.some((seq) =>
-      seq.replace(/\s+/g, "") === normalizedTypedKeys
-    )
-  ) {
-    const passkeyInput = document.getElementById("passkey");
-    passkeyInput.value = "";
-    passkeyInput.focus();
+  if (normalizedTypedKeys.length === 20) {
+    fetch("/validate-sequence", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sequence: normalizedTypedKeys }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.valid) {
+          const passkeyContainer = document.getElementById("passkey-container");
+          passkeyContainer.style.display = "block";
 
-    const passkeyContainer = document.getElementById("passkey-container");
-    passkeyContainer.style.display = "block";
-  }
-});
-
-document.getElementById("submit-btn").addEventListener("click", () => {
-  const passkeyInput = document.getElementById("passkey").value.trim();
-
-  if (passkeyInput === "first step" || passkeyInput === "firststep") {
-    window.location.href = "meta-thinking.html";
-  } else {
-    const resultMessage = document.getElementById("result-message");
-    resultMessage.textContent = "Incorrect. Try again!";
-    resultMessage.style.color = "red";
+          const passkeyInput = document.getElementById("passkey");
+          passkeyInput.value = "";
+          passkeyInput.focus();
+        }
+      })
+      .catch((error) => {
+        console.error("Error validating sequence:", error);
+      });
   }
 });

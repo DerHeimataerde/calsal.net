@@ -9,13 +9,18 @@
 <body>
   <div class="image-container">
     <img src="bg.gif" alt="Centered GIF" class="background-image">
-    <div id="passkey-container">
+    <div id="passkey-container" style="display: none;">
       <p style="color: white;">Every adventure requires a:</p>
-      <input type="text" id="passkey" name="passkey" placeholder="Type here">
-      <button id="submit-btn">Submit</button>
-      <p id="result-message" style="color: white; margin-top: 10px;"></p>
+      <form action="/validate-passkey" method="POST">
+        <input type="text" id="passkey" name="passkey" placeholder="Type here">
+        <button type="submit">Submit</button>
+      </form>
     </div>
   </div>
   <script src="script.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html>
+<head>
+ 
