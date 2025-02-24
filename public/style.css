@@ -73,3 +73,13 @@ button:hover {
   color: red;
   margin-top: 10px;
 }
+
+.audio-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#audio-player {
+  width: 300px; /* Adjust width as needed */
+}
