@@ -1,12 +1,16 @@
 let typedKeys = "";
 
+// Event listener for keypress to detect the sequence
 document.addEventListener("keydown", (event) => {
-  typedKeys += event.key;
-  
-  //Get last 20 characters user has pressed on the page, ignoring spaces
+  if (event.key === "Shift") return; // Ignore Shift keys
+
+  const key = event.key.toLowerCase();
+  typedKeys += key;
+
+  // Normalize the typed sequence (remove spaces and keep last 20 characters)
   const normalizedTypedKeys = typedKeys.replace(/\s+/g, "").slice(-20);
 
-  //Validate sequence if 20 characters are entered
+  // Validate the sequence when it reaches 20 characters
   if (normalizedTypedKeys.length === 20) {
     fetch("/validate-sequence", {
       method: "POST",
@@ -15,10 +19,22 @@ document.addEventListener("keydown", (event) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        //Show element if correct sequence is entered
         if (data.valid) {
-          const passkeyContainer = document.getElementById("passkey-container");
-          passkeyContainer.style.display = "block";
+          // Dynamically insert passkey input into the page when the correct 20-character sequence is entered
+          if (!document.getElementById("passkey-container")) {
+            document.body.insertAdjacentHTML(
+              "beforeend",
+              `<div id="passkey-container" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+               background: rgba(0, 0, 0, 0.8); padding: 20px; border-radius: 10px; text-align: center; z-index: 2;">
+                <p style="color: white;">Every adventure requires a:</p>
+                <form action="/validate-passkey" method="POST">
+                  <input type="text" id="passkey" name="passkey" placeholder="Type here" autocomplete="off">
+                  <button type="submit">Submit</button>
+                </form>
+                <p id="result-message"></p>
+              </div>`
+            );
+          }
 
           const passkeyInput = document.getElementById("passkey");
           passkeyInput.value = "";
